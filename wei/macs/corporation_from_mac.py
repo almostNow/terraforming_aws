@@ -17,7 +17,9 @@ def get_dict_from_csv(csv_file):
     return dict_from_csv 
 
 def get_unique_ouis(macs_list, ouis_dict):
-    # Weed out duplicates
+    """ 
+    Weed out duplicates
+    """
     unique_ouis = {} 
     for mac_line in macs_list:
         mac_addr = mac_line.strip()

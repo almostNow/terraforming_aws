@@ -13,12 +13,18 @@ def get_args():
     return vars(args)
 
 def get_list_from_file(list_file):
+    """
+    Returns a list created from the list_file parameter.
+    """
     list_from_file = []
     txt_file = open(list_file, "r")
     list_from_file = txt_file.readlines()
     return list_from_file
     
 def get_dict_from_csv(csv_file):
+    """
+    Returns a dictionary created from the two column csv_file parameter.
+    """
     dict_from_csv = {}
     with open(csv_file, mode='r') as inp:
         reader = csv.reader(inp)
@@ -26,6 +32,12 @@ def get_dict_from_csv(csv_file):
     return dict_from_csv 
 
 def create_mac_to_corpname_dict(macs_list, ouis_dict):
+    """
+    Returns a dictionary created from the macs_list and ouis_dict parameters
+    OUIs from ouis_dict are compared to MAC addresses from macs_list
+    MAC addresses are the 'keys'.
+    Corporation names are the 'values'.
+    """
     mac_to_corpname_dict = {}
     for mac_line in macs_list:
         mac_addr = mac_line.strip()
@@ -35,6 +47,10 @@ def create_mac_to_corpname_dict(macs_list, ouis_dict):
     return mac_to_corpname_dict
 
 def create_csv_file(mac_to_corpname_dict):
+    """
+    Sorts the mac_to_corpname_dict dictionary parameter.
+    Creates the CSV output file
+    """
     sort_by_corp = sorted(mac_to_corpname_dict.items(), key=lambda x: x[1])
 
     f = open('./macs_with_corp_name.csv', 'w', encoding='UTF8')
@@ -46,6 +62,7 @@ def create_csv_file(mac_to_corpname_dict):
         writer.writerow(i)
 
     f.close()
+
 ### MAIN ###
 
 # Get the arguments passed into the script
@@ -57,8 +74,10 @@ ouis_dict = get_dict_from_csv(config['ouis'])
 # Create a list from a single column CSV file
 macs_list = get_list_from_file(config['macs'])
 
+# Create the MAC address : Corporation name dictionary
 mac_to_corpname_dict = create_mac_to_corpname_dict(macs_list, ouis_dict)
 
+# Create the CSV result file
 create_csv_file(mac_to_corpname_dict)
 
 exit(0)
